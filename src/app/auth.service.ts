@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {LoginInterface} from './interfeces/login-interface';
 
 @Injectable()
 export class AuthService {
@@ -23,7 +24,7 @@ export class AuthService {
             this.token = this.getFromLocalStorage();
         }
         this.httpClient
-            .post('http://api.bronnikov.lan/auth/login', {email: email, password: password})
+            .post<LoginInterface>('http://api.bronnikov.lan/auth/login', {email: email, password: password})
             .toPromise().then(response => {
             if (response.success === true) {
                 if (response.data.token) {
