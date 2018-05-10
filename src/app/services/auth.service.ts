@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {LoginInterface} from './interfeces/login-interface';
+import {LoginInterface} from '../interfeces/login-interface';
 
 @Injectable()
 export class AuthService {
