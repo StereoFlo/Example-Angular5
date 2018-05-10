@@ -7,13 +7,11 @@ import {AuthService} from './services/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements  OnInit {
-  title = 'app';
-
     constructor(private authService: AuthService) {
 
     }
 
     ngOnInit() {
-        this.authService.login('test@test.ru', 'Aa123456');
+        // this.authService.login('test@test.ru', 'Aa123456');
     }
 }
