@@ -11,11 +11,18 @@ export class PageComponent implements OnInit {
 
     title: string;
     content: string;
+    isError = false;
+    errorMessage = 'Произошла ошибка';
 
     constructor(private mainService: MainService, private route: ActivatedRoute) {}
 
     ngOnInit() {
         return this.mainService.getPage(this.route.snapshot.params['slug']).then(response => {
+            if (!response.success) {
+                this.isError = true;
+                this.errorMessage = response.message;
+                return this;
+            }
             this.title = response.data.title;
             this.content = response.data.content;
         });

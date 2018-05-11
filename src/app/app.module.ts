@@ -11,12 +11,14 @@ import {LoginComponent} from './login/login.component';
 
 import {FormsModule} from '@angular/forms';
 import {MainService} from './services/main.service';
+import { ErrorComponent } from './error/error.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         PageComponent,
-        LoginComponent
+        LoginComponent,
+        ErrorComponent
     ],
     imports: [
         BrowserModule,

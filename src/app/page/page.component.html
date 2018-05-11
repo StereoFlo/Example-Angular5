@@ -1,6 +1,11 @@
-<h1>
-  {{ title }}
-</h1>
-<p>
-  {{ content  }}
-</p>
+<div *ngIf="!isError">
+    <h1>
+        {{ title }}
+    </h1>
+    <p>
+        {{ content }}
+    </p>
+</div>
+<div *ngIf="isError">
+    <app-error title="Ошибка" [description]="errorMessage"></app-error>
+</div>
