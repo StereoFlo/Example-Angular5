@@ -22,7 +22,9 @@ export class LoginComponent implements OnInit {
     onSubmit(myForm: NgForm) {
         if (myForm.value.email && myForm.value.password) {
             this.authService.login(myForm.value.email, myForm.value.password).then(data => {
-                console.log(data);
+                if (data.isAuth && data.token) {
+                    this.router.navigate(['']);
+                }
             });
         }
 
