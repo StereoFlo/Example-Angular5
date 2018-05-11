@@ -11,29 +11,35 @@ export class AuthService {
 
     constructor(private httpClient: HttpClient) {
         this.isAuth = !!this.getFromLocalStorage();
+        if (this.isAuth) {
+            this.token = this.getFromLocalStorage();
+        }
     }
 
     /**
      * @param {string} email
      * @param {string} password
-     * @returns {void}
+     * @returns {Promise}
      */
     login(email: string, password: string) {
         if (this.getFromLocalStorage()) {
             this.isAuth = true;
             this.token = this.getFromLocalStorage();
         }
-        this.httpClient
+        return this.httpClient
             .post<LoginInterface>('http://api.bronnikov.lan/auth/login', {email: email, password: password})
             .toPromise().then(response => {
-            if (response.success === true) {
-                if (response.data.token) {
-                    this.setToLocalSorage(response.data.token);
-                    this.isAuth = true;
-                    this.token = response.data.token;
+                if (response.success === true) {
+                    if (response.data.token) {
+                        this.setToLocalSorage(response.data.token);
+                        this.isAuth = true;
+                        this.token = response.data.token;
+                        return this;
+                    }
+                    return this;
                 }
-            }
-        });
+                return this;
+            });
     }
 
     /**

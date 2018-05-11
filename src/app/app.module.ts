@@ -10,6 +10,7 @@ import {PageComponent} from './page/page.component';
 import {LoginComponent} from './login/login.component';
 
 import {FormsModule} from '@angular/forms';
+import {MainService} from './services/main.service';
 
 @NgModule({
     declarations: [
@@ -23,7 +24,7 @@ import {FormsModule} from '@angular/forms';
         HttpClientModule,
         FormsModule,
     ],
-    providers: [AuthService],
+    providers: [AuthService, MainService],
     bootstrap: [AppComponent]
 })
 export class AppModule {
