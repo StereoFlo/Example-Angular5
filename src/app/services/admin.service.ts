@@ -1,25 +1,24 @@
 import {Injectable} from '@angular/core';
 import {AuthService} from './auth.service';
 import {HttpClient} from '@angular/common/http';
-import {ActivatedRoute, Router} from '@angular/router';
+import {AdminPageList} from '../interfeces/admin-page-list';
 
 @Injectable()
 export class AdminService {
 
-    constructor(private httpClient: HttpClient, private authService: AuthService, private route: ActivatedRoute, private router: Router) {
+    constructor(private httpClient: HttpClient, private authService: AuthService) {
     }
 
     /**
-     * @returns {any}
+     * @returns {Promise<AdminPageList>}
      */
-    getPage() {
+    getPage(): Promise<AdminPageList> {
         if (!this.authService.isAuth) {
-            this.router.navigate(['']);
             throw new Error('you are not an admin');
         }
         return this
             .httpClient
-            .get('http://api.bronnikov.lan/admin/', {headers: this.getHeaders()})
+            .get<AdminPageList>('http://api.bronnikov.lan/admin/page/list', {headers: this.getHeaders()})
             .toPromise();
     }
 

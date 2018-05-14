@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="col s4">
+        Заголовок
+    </div>
+    <div class="col s4">
+        Контент
+    </div>
+    <div class="col s4">
+        Дефолтная страница
+    </div>
+</div>
+<div class="row" *ngFor="let page of pageList">
+    <div class="col s4">
+        {{ page.title }}
+    </div>
+    <div class="col s4">
+        {{ page.content }}
+    </div>
+    <div class="col s4">
+        {{ page.isDefault }}
+    </div>
+</div>

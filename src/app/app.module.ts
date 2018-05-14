@@ -13,6 +13,8 @@ import {FormsModule} from '@angular/forms';
 import {MainService} from './services/main.service';
 import {ErrorComponent} from './error/error.component';
 import {AdminService} from './services/admin.service';
+import { AdminPageListComponent } from './admin-page-list/admin-page-list.component';
+import { AdminCreatePageComponent } from './admin-create-page/admin-create-page.component';
 
 @NgModule({
     declarations: [
@@ -20,6 +22,8 @@ import {AdminService} from './services/admin.service';
         PageComponent,
         LoginComponent,
         ErrorComponent,
+        AdminPageListComponent,
+        AdminCreatePageComponent,
     ],
     imports: [
         BrowserModule,
