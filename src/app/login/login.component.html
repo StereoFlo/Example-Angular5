@@ -1,4 +1,5 @@
 <form #myForm="ngForm" (ngSubmit)="onSubmit(myForm)">
+    <div *ngIf="errorMessage" class="form-group"> {{ errorMessage }}</div>
     <div class="form-group">
         <label for="email">email</label>
         <input type="text" class="form-control" id="email" name="email" ngModel required>
@@ -10,5 +11,4 @@
     </div>
 
     <button type="submit" class="btn btn-success">Submit</button>
-
 </form>

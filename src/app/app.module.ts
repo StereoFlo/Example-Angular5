@@ -12,13 +12,16 @@ import {LoginComponent} from './login/login.component';
 import {FormsModule} from '@angular/forms';
 import {MainService} from './services/main.service';
 import { ErrorComponent } from './error/error.component';
+import { AdminComponent } from './admin/admin.component';
+import {AdminService} from './services/admin.service';
 
 @NgModule({
     declarations: [
         AppComponent,
         PageComponent,
         LoginComponent,
-        ErrorComponent
+        ErrorComponent,
+        AdminComponent
     ],
     imports: [
         BrowserModule,
@@ -26,7 +29,7 @@ import { ErrorComponent } from './error/error.component';
         HttpClientModule,
         FormsModule,
     ],
-    providers: [AuthService, MainService],
+    providers: [AuthService, MainService, AdminService],
     bootstrap: [AppComponent]
 })
 export class AppModule {

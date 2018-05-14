@@ -8,6 +8,7 @@ export class AuthService {
     tokenName = 'token';
     isAuth = false;
     token = '';
+    errorMessage = '';
 
     constructor(private httpClient: HttpClient) {
         this.isAuth = !!this.getFromLocalStorage();
@@ -21,7 +22,7 @@ export class AuthService {
      * @param {string} password
      * @returns {Promise}
      */
-    login(email: string, password: string) {
+    login(email: string, password: string): Promise<AuthService> {
         if (this.getFromLocalStorage()) {
             this.isAuth = true;
             this.token = this.getFromLocalStorage();
@@ -38,6 +39,9 @@ export class AuthService {
                     }
                     return this;
                 }
+                return this;
+            }).catch(error => {
+                this.errorMessage = error.error.message;
                 return this;
             });
     }

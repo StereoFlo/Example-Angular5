@@ -10,6 +10,8 @@ import {NgForm} from '@angular/forms';
 })
 export class LoginComponent implements OnInit {
 
+    errorMessage = '';
+
     constructor(private authService: AuthService, private router: Router) {
     }
 
@@ -24,6 +26,9 @@ export class LoginComponent implements OnInit {
             this.authService.login(myForm.value.email, myForm.value.password).then(data => {
                 if (data.isAuth && data.token) {
                     this.router.navigate(['']);
+                }
+                if (!data.isAuth && data.errorMessage) {
+                    this.errorMessage = data.errorMessage;
                 }
             });
         }
