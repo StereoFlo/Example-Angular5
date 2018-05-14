@@ -2,11 +2,19 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {PageInterface} from '../interfeces/page-interface';
 import {AuthService} from './auth.service';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class MainService {
 
-    constructor(private httpClient: HttpClient, private authService: AuthService) {}
+    /**
+     * env vars
+     */
+    private environment;
+
+    constructor(private httpClient: HttpClient, private authService: AuthService) {
+        this.environment = environment;
+    }
 
     /**
      * @param {string} pageName
@@ -16,7 +24,7 @@ export class MainService {
         if (pageName) {
             return this
                 .httpClient
-                .get<PageInterface>('http://api.bronnikov.lan/page/' + pageName, {headers: this.getHeaders()})
+                .get<PageInterface>(this.environment.apiSchema + this.environment.apiHost + '/page/' + pageName, {headers: this.getHeaders()})
                 .toPromise();
         }
         return this

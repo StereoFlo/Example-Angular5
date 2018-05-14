@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+    production: true,
+    apiSchema: 'https://',
+    apiHost: 'api.bronnikov.su',
 };

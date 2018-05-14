@@ -2,11 +2,18 @@ import {Injectable} from '@angular/core';
 import {AuthService} from './auth.service';
 import {HttpClient} from '@angular/common/http';
 import {AdminPageList} from '../interfeces/admin-page-list';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class AdminService {
 
+    /**
+     * env vars
+     */
+    private environment;
+
     constructor(private httpClient: HttpClient, private authService: AuthService) {
+        this.environment = environment;
     }
 
     /**
@@ -18,7 +25,7 @@ export class AdminService {
         }
         return this
             .httpClient
-            .get<AdminPageList>('http://api.bronnikov.lan/admin/page/list', {headers: this.getHeaders()})
+            .get<AdminPageList>(this.environment.apiSchema + this.environment.apiHost + '/admin/page/list', {headers: this.getHeaders()})
             .toPromise();
     }
 
