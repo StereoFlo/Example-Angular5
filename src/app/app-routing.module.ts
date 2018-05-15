@@ -11,6 +11,7 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'admin', component: AdminPageListComponent },
     { path: 'admin/page/:pageId', component: AdminPageEditComponent },
+    { path: 'admin/page', component: AdminPageEditComponent },
     { path: ':slug', component: PageComponent },
     { path: '**', component: ErrorComponent },
 ];

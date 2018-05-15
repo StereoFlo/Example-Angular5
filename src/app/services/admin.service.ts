@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {AdminPageList} from '../interfeces/admin-page-list';
 import {environment} from '../../environments/environment';
 import {PageInterface} from '../interfeces/page-interface';
+import {ResponseInterface} from '../interfeces/response-interface';
 
 @Injectable()
 export class AdminService {
@@ -40,6 +41,28 @@ export class AdminService {
         return this
             .httpClient
             .get<PageInterface>(this.environment.apiSchema + this.environment.apiHost + '/admin/page/' + pageId, {headers: this.getHeaders()})
+            .toPromise();
+    }
+
+    /**
+     *
+     * @param {string} pageId
+     * @param {string} title
+     * @param {string} content
+     * @param {string} slug
+     * @param {boolean} isDefault
+     * @returns {Promise<ResponseInterface>}
+     */
+    savePage(pageId: string = null, title: string, content: string, slug: string, isDefault: boolean): Promise<ResponseInterface> {
+        return this
+            .httpClient
+            .post<ResponseInterface>(this.environment.apiSchema + this.environment.apiHost + '/admin/page/save', {
+                pageId: pageId,
+                title: title,
+                content: content,
+                slug: slug,
+                isDefault: isDefault
+            }, {headers: this.getHeaders()})
             .toPromise();
     }
 
