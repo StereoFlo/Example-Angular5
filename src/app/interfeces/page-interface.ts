@@ -4,6 +4,8 @@ export interface PageInterface {
     data: {
         title: string;
         content: string;
+        slug: string;
+        isDefault: boolean;
         createdAt: string;
         updatedAt: string;
     };

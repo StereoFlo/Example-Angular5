@@ -29,7 +29,7 @@ export class MainService {
         }
         return this
             .httpClient
-            .get<PageInterface>('http://api.bronnikov.lan/page/default', {headers: this.getHeaders()})
+            .get<PageInterface>(this.environment.apiSchema + this.environment.apiHost + '/page/default', {headers: this.getHeaders()})
             .toPromise();
     }
 
