@@ -25,6 +25,8 @@ export class AdminPageEditComponent implements OnInit {
             this.adminService.getPage(this.route.snapshot.params['pageId']).then(page => {
                 console.log(page);
                 this.page = page;
+            }, error => {
+                console.log(error);
             });
         }
     }
