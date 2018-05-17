@@ -14,8 +14,8 @@ import {Response} from '../classes/response';
 })
 export class AdminPageEditComponent implements OnInit {
 
-    protected page: PageInterface = new Page();
-    protected response: ResponseInterface = new Response();
+    page: PageInterface = new Page();
+    response: ResponseInterface = new Response();
 
     constructor(private adminService: AdminService, private route: ActivatedRoute) {
     }
