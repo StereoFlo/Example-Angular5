@@ -18,6 +18,7 @@ export class AdminPageEditComponent implements OnInit {
     response: ResponseInterface = new Response();
 
     constructor(private adminService: AdminService, private route: ActivatedRoute) {
+        this.adminService.checkAuth();
     }
 
     ngOnInit() {

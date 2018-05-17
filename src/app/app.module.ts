@@ -12,6 +12,7 @@ import {ErrorComponent} from './error/error.component';
 import {AdminService} from './services/admin.service';
 import {AdminPageListComponent} from './admin-page-list/admin-page-list.component';
 import { AdminPageEditComponent } from './admin-page-edit/admin-page-edit.component';
+import { LogoutComponent } from './logout/logout.component';
 
 @NgModule({
     declarations: [
@@ -21,6 +22,7 @@ import { AdminPageEditComponent } from './admin-page-edit/admin-page-edit.compon
         ErrorComponent,
         AdminPageListComponent,
         AdminPageEditComponent,
+        LogoutComponent,
     ],
     imports: [
         BrowserModule,

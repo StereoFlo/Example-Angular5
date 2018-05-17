@@ -17,6 +17,7 @@ export class PageComponent implements OnInit {
     constructor(private mainService: MainService, private route: ActivatedRoute) {}
 
     ngOnInit() {
+        console.log(this.route.snapshot.params['slug']);
         return this.mainService.getPage(this.route.snapshot.params['slug']).then(response => {
             if (!response.success) {
                 this.isError = true;

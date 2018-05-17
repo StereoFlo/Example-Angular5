@@ -5,6 +5,7 @@ import {AdminPageList} from '../interfeces/admin-page-list';
 import {environment} from '../../environments/environment';
 import {PageInterface} from '../interfeces/page-interface';
 import {ResponseInterface} from '../interfeces/response-interface';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class AdminService {
@@ -14,7 +15,8 @@ export class AdminService {
      */
     private environment;
 
-    constructor(private httpClient: HttpClient, private authService: AuthService) {
+    constructor(private httpClient: HttpClient, private authService: AuthService, private router: Router) {
+        this.checkAuth();
         this.environment = environment;
     }
 
@@ -22,7 +24,6 @@ export class AdminService {
      * @returns {Promise<AdminPageList>}
      */
     getList(): Promise<AdminPageList> {
-        this.checkAuth();
         return this
             .httpClient
             .get<AdminPageList>(this.environment.apiSchema + this.environment.apiHost + '/admin/page/list', {headers: this.getHeaders()})
@@ -34,7 +35,6 @@ export class AdminService {
      * @returns {Promise<PageInterface>}
      */
     getPage(pageId: string = null): Promise<PageInterface> {
-        this.checkAuth();
         if (!pageId) {
             throw new Error('pageId is required parameter');
         }
@@ -67,6 +67,17 @@ export class AdminService {
     }
 
     /**
+     * @returns {boolean}
+     */
+    checkAuth(): boolean {
+        if (!this.authService.isAuth) {
+            this.router.navigate(['']);
+            return;
+        }
+        return true;
+    }
+
+    /**
      * builds a header
      * @returns {Object}
      */
@@ -75,13 +86,6 @@ export class AdminService {
             'Content-Type': 'application/json',
             'X-API-TOKEN': this.authService.token
         };
-    }
-
-    private checkAuth(): boolean {
-        if (!this.authService.isAuth) {
-            throw new Error('you are not an admin');
-        }
-        return true;
     }
 
 }
