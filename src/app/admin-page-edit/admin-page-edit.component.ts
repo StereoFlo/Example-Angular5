@@ -23,10 +23,10 @@ export class AdminPageEditComponent implements OnInit {
     ngOnInit() {
         if (this.route.snapshot.params['pageId']) {
             this.adminService.getPage(this.route.snapshot.params['pageId']).then(page => {
-                console.log(page);
                 this.page = page;
             }, error => {
-                console.log(error);
+                this.response.success = error.success;
+                this.response.message = error.message;
             });
         }
     }
@@ -45,7 +45,8 @@ export class AdminPageEditComponent implements OnInit {
                 this.response.message = response.message;
                 this.response.success = response.success;
             }, error => {
-                console.log(error);
-            })
+                this.response.success = error.success;
+                this.response.message = error.message;
+            });
     }
 }
