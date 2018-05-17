@@ -54,6 +54,7 @@ export class AuthService {
      */
     logout(): void {
         if (this.getFromLocalStorage()) {
+            this.httpClient.post(this.environment.apiSchema + this.environment.apiHost + '/auth/logout', {token: this.getFromLocalStorage()});
             this.setToLocalSorage('');
         }
     }
