@@ -5,6 +5,7 @@ import {AdminPageList} from '../interfeces/admin-page-list';
 import {environment} from '../../environments/environment';
 import {PageInterface} from '../interfeces/page-interface';
 import {ResponseInterface} from '../interfeces/response-interface';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class AdminService {
@@ -14,7 +15,7 @@ export class AdminService {
      */
     private environment;
 
-    constructor(private httpClient: HttpClient, private authService: AuthService) {
+    constructor(private httpClient: HttpClient, private authService: AuthService, private router: Router) {
         this.environment = environment;
     }
 
@@ -79,7 +80,8 @@ export class AdminService {
 
     private checkAuth(): boolean {
         if (!this.authService.isAuth) {
-            throw new Error('you are not an admin');
+            this.router.navigate(['']);
+            return;
         }
         return true;
     }

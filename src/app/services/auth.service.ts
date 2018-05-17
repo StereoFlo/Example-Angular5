@@ -50,6 +50,15 @@ export class AuthService {
     }
 
     /**
+     * logout
+     */
+    logout(): void {
+        if (this.getFromLocalStorage()) {
+            this.setToLocalSorage('');
+        }
+    }
+
+    /**
      * @returns {string}
      */
     private getFromLocalStorage(): string {
