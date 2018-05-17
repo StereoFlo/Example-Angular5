@@ -18,6 +18,7 @@ export class AdminPageEditComponent implements OnInit {
     response: ResponseInterface = new Response();
 
     constructor(private adminService: AdminService, private route: ActivatedRoute) {
+        this.adminService.checkAuth();
     }
 
     ngOnInit() {
@@ -25,8 +26,6 @@ export class AdminPageEditComponent implements OnInit {
             this.adminService.getPage(this.route.snapshot.params['pageId']).then(page => {
                 console.log(page);
                 this.page = page;
-            }, error => {
-                console.log(error);
             });
         }
     }
@@ -44,8 +43,6 @@ export class AdminPageEditComponent implements OnInit {
             .then(response => {
                 this.response.message = response.message;
                 this.response.success = response.success;
-            }, error => {
-                console.log(error);
             })
     }
 }
