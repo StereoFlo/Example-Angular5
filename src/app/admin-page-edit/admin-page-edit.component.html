@@ -26,6 +26,6 @@
             </label>
         </div>
         <button type="submit" class="btn btn-success">Submit</button>
-        <input *ngIf="page.data.pageId" type="hidden" name="pageId" value="{{ page.data.pageId }}">
+        <input *ngIf="page.data && page.data.pageId" type="hidden" name="pageId" value="{{ page.data.pageId }}">
     </form>
 </div>
