@@ -50,6 +50,18 @@ export class AuthService {
     }
 
     /**
+     * logout
+     */
+    logout(): void {
+        if (this.getFromLocalStorage()) {
+            this.httpClient.post(
+                this.environment.apiSchema + this.environment.apiHost + '/auth/logout', {token: this.getFromLocalStorage()}
+                );
+            this.removeToken();
+        }
+    }
+
+    /**
      * @returns {string}
      */
     private getFromLocalStorage(): string {
@@ -62,6 +74,14 @@ export class AuthService {
      */
     private setToLocalSorage(tokenValue: string): boolean {
         localStorage.setItem(this.tokenName, tokenValue);
+        return true;
+    }
+
+    /**
+     * @return {boolean}
+     */
+    private removeToken(): boolean {
+        localStorage.removeItem(this.tokenName);
         return true;
     }
 }

@@ -24,7 +24,10 @@ export class MainService {
         if (pageName) {
             return this
                 .httpClient
-                .get<PageInterface>(this.environment.apiSchema + this.environment.apiHost + '/page/' + pageName, {headers: this.getHeaders()})
+                .get<PageInterface>(
+                    this.environment.apiSchema + this.environment.apiHost + '/page/' + pageName,
+                    {headers: this.getHeaders()}
+                    )
                 .toPromise();
         }
         return this

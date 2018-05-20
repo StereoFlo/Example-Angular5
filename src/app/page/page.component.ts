@@ -18,13 +18,12 @@ export class PageComponent implements OnInit {
 
     ngOnInit() {
         return this.mainService.getPage(this.route.snapshot.params['slug']).then(response => {
-            if (!response.success) {
-                this.isError = true;
-                this.errorMessage = response.message;
-                return this;
-            }
             this.title = response.data.title;
             this.content = response.data.content;
+        }, error => {
+                console.log(error);
+                this.isError = true;
+                this.errorMessage = error.error.message;
         });
 
     }

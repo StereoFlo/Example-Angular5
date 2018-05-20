@@ -14,21 +14,34 @@ import {Response} from '../classes/response';
 })
 export class AdminPageEditComponent implements OnInit {
 
-    protected page: PageInterface = new Page();
-    protected response: ResponseInterface = new Response();
+    page: PageInterface = new Page();
+    response: ResponseInterface = new Response();
+    pageList = [];
+    pageTitle = '';
+    pageContent = '';
+    pageSlug = '';
+    pageIsDefault = false;
 
     constructor(private adminService: AdminService, private route: ActivatedRoute) {
+        this.adminService.checkAuth();
     }
 
     ngOnInit() {
         if (this.route.snapshot.params['pageId']) {
             this.adminService.getPage(this.route.snapshot.params['pageId']).then(page => {
-                console.log(page);
                 this.page = page;
+                this.pageTitle = page.data.title;
+                this.pageContent = page.data.content;
+                this.pageSlug = page.data.slug;
+                this.pageIsDefault = page.data.isDefault;
             }, error => {
-                console.log(error);
+                this.response.success = error.success;
+                this.response.message = error.message;
             });
         }
+        this.adminService.getList().then(list => {
+            this.pageList = list.data;
+        });
     }
 
     onSubmit(pageForm: NgForm) {
@@ -45,7 +58,8 @@ export class AdminPageEditComponent implements OnInit {
                 this.response.message = response.message;
                 this.response.success = response.success;
             }, error => {
-                console.log(error);
-            })
+                this.response.success = error.success;
+                this.response.message = error.message;
+            });
     }
 }

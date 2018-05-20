@@ -3,29 +3,36 @@
     <form #pageForm="ngForm" (ngSubmit)="onSubmit(pageForm)" class="col s12">
         <div class="row">
             <div class="input-field col s12">
-                <input id="title" name="title" type="text" class="validate" value="{{ page.data.title }}" ngModel required>
+                <input id="title" name="title" type="text" class="validate" value="{{ pageTitle }}" ngModel required>
                 <label for="title">title</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s12">
-                <input id="content" name="content" type="text" class="validate" value="{{ page.data.content }}" ngModel required>
+                <input id="content" name="content" type="text" class="validate" value="{{ pageContent }}" ngModel required>
                 <label for="content">content</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s12">
-                <input id="slug" type="text" name="slug" class="validate" value="{{ page.data.slug }}" ngModel required>
+                <input id="slug" type="text" name="slug" class="validate" value="{{ pageSlug }}" ngModel required>
                 <label for="slug">slug</label>
             </div>
         </div>
         <div class="row">
+            <label for="parentId">Select the parentId for page</label>
+            <select name="parentId" id="parentId" class="browser-default" *ngFor="let page of pageList">
+                <option value="" selected>none</option>
+                <option value="{{ page.pageId }}">{{ page.title }}</option>
+            </select>
+        </div>
+        <div class="row">
             <label>
-                <input type="checkbox" class="filled-in" name="isDefault" value="{{ page.data.isDefault }}"  ngModel />
+                <input type="checkbox" class="filled-in" name="isDefault" checked="{{ pageIsDefault }}"  ngModel />
                 <span>is default page?</span>
             </label>
         </div>
         <button type="submit" class="btn btn-success">Submit</button>
-        <input *ngIf="page.data.pageId" type="hidden" name="pageId" value="{{ page.data.pageId }}">
+        <input *ngIf="page.data && page.data.pageId" type="hidden" name="pageId" value="{{ page.data.pageId }}">
     </form>
 </div>
