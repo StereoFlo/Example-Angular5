@@ -16,24 +16,32 @@ export class AdminPageEditComponent implements OnInit {
 
     page: PageInterface = new Page();
     response: ResponseInterface = new Response();
-    // pageList = [];
+    pageList = [];
+    pageTitle = '';
+    pageContent = '';
+    pageSlug = '';
+    pageIsDefault = false;
 
     constructor(private adminService: AdminService, private route: ActivatedRoute) {
         this.adminService.checkAuth();
     }
 
     ngOnInit() {
-        // this.adminService.getList().then(list => {
-        //     this.pageList = list.data;
-        // });
         if (this.route.snapshot.params['pageId']) {
             this.adminService.getPage(this.route.snapshot.params['pageId']).then(page => {
                 this.page = page;
+                this.pageTitle = page.data.title;
+                this.pageContent = page.data.content;
+                this.pageSlug = page.data.slug;
+                this.pageIsDefault = page.data.isDefault;
             }, error => {
                 this.response.success = error.success;
                 this.response.message = error.message;
             });
         }
+        this.adminService.getList().then(list => {
+            this.pageList = list.data;
+        });
     }
 
     onSubmit(pageForm: NgForm) {

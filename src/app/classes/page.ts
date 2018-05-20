@@ -4,5 +4,13 @@ import {ResponseInterface} from '../interfeces/response-interface';
 export class Page implements PageInterface, ResponseInterface {
     message: string;
     success: boolean;
-    data: { pageId: string; title: string; content: string; slug: string; isDefault: boolean; createdAt: string; updatedAt: string };
+    data: {
+        pageId: '';
+        title: '';
+        content: '';
+        slug: '';
+        isDefault: false;
+        createdAt: '';
+        updatedAt: '';
+    };
 }
