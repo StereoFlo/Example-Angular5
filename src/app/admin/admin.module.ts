@@ -7,13 +7,13 @@ import {AdminPageListComponent} from './admin-page-list/admin-page-list.componen
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
-import { AdminComponent } from './admin.component';
+import {AdminComponent} from './admin.component';
 
 @NgModule({
     declarations: [
+        AdminComponent,
         AdminPageListComponent,
-        AdminPageEditComponent,
-        AdminComponent
+        AdminPageEditComponent
     ],
     imports: [
         AdminRoutingModule,
