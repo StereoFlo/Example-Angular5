@@ -21,9 +21,9 @@
         </div>
         <div class="row">
             <label for="parentId">Select the parentId for page</label>
-            <select name="parentId" id="parentId" class="browser-default" *ngFor="let page of pageList">
+            <select name="parentId" id="parentId" class="browser-default">
                 <option value="" selected>none</option>
-                <option value="{{ page.pageId }}">{{ page.title }}</option>
+                <option *ngFor="let page of pageList" value="{{ page.pageId }}">{{ page.title }}</option>
             </select>
         </div>
         <div class="row">
