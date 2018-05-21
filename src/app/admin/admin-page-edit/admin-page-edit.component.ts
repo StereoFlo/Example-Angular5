@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {AdminService} from '../services/admin.service';
-import {PageInterface} from '../interfeces/page-interface';
-import {Page} from '../classes/page';
 import {ActivatedRoute} from '@angular/router';
 import {NgForm} from '@angular/forms';
-import {ResponseInterface} from '../interfeces/response-interface';
-import {Response} from '../classes/response';
+import {PageInterface} from '../../interfeces/page-interface';
+import {ResponseInterface} from '../../interfeces/response-interface';
+import {Page} from '../../classes/page';
+import {AdminService} from '../../services/admin.service';
+import {Response} from '../../classes/response';
 
 @Component({
     selector: 'app-admin-page-edit',
