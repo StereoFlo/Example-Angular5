@@ -1,14 +1,11 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
-import {LoginComponent} from './login/login.component';
+import {RouterModule, Routes} from '@angular/router';
 import {PageComponent} from './page/page.component';
 import {ErrorComponent} from './error/error.component';
-import {LogoutComponent} from './logout/logout.component';
 
 const routes: Routes = [
     {path: '', component: PageComponent},
-    {path: 'auth/login', component: LoginComponent},
-    {path: 'auth/logout', component: LogoutComponent},
+    {path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
     {path: 'admin', loadChildren: './admin/admin.module#AdminModule'},
     {path: ':slug', component: PageComponent},
     {path: '**', component: ErrorComponent},
