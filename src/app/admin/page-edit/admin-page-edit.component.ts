@@ -10,7 +10,7 @@ import {Response} from '../../classes/response';
     templateUrl: './admin-page-edit.component.html',
     styleUrls: ['./admin-page-edit.component.css']
 })
-export class AdminPageEditComponent implements OnInit {
+export class PageEditComponent implements OnInit {
 
     response: ResponseInterface = new Response();
     pageList = [];

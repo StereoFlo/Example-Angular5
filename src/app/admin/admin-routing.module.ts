@@ -1,12 +1,12 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {AdminPageListComponent} from './admin-page-list/admin-page-list.component';
-import {AdminPageEditComponent} from './admin-page-edit/admin-page-edit.component';
+import {PageListComponent} from './page-list/admin-page-list.component';
+import {PageEditComponent} from './page-edit/admin-page-edit.component';
 
 const routes: Routes = [
-    {path: '', component: AdminPageListComponent},
-    {path: 'page/:pageId', component: AdminPageEditComponent},
-    {path: 'page', component: AdminPageEditComponent}
+    {path: '', component: PageListComponent},
+    {path: 'page/:pageId', component: PageEditComponent},
+    {path: 'page', component: PageEditComponent}
 ];
 
 @NgModule({

@@ -6,7 +6,7 @@ import {AdminService} from '../../services/admin.service';
     templateUrl: './admin-page-list.component.html',
     styleUrls: ['./admin-page-list.component.css']
 })
-export class AdminPageListComponent implements OnInit {
+export class PageListComponent implements OnInit {
 
     pageList = [];
     message = '';
