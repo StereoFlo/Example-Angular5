@@ -17,11 +17,10 @@ export class PageComponent implements OnInit {
     constructor(private mainService: MainService, private route: ActivatedRoute) {}
 
     ngOnInit() {
-        return this.mainService.getPage(this.route.snapshot.params['slug']).then(response => {
+        return this.mainService.getPage(this.route.snapshot.params['slug']).subscribe(response => {
             this.title = response.data.title;
             this.content = response.data.content;
         }, error => {
-                console.log(error);
                 this.isError = true;
                 this.errorMessage = error.error.message;
         });

@@ -26,7 +26,7 @@ export class AdminPageEditComponent implements OnInit {
 
     ngOnInit() {
         if (this.route.snapshot.params['pageId']) {
-            this.adminService.getPage(this.route.snapshot.params['pageId']).then(page => {
+            this.adminService.getPage(this.route.snapshot.params['pageId']).subscribe(page => {
                 this.pageId = page.data.pageId;
                 this.pageTitle = page.data.title;
                 this.pageContent = page.data.content;
@@ -37,7 +37,7 @@ export class AdminPageEditComponent implements OnInit {
                 this.response.message = error.message;
             });
         }
-        this.adminService.getList().then(list => {
+        this.adminService.getList().subscribe(list => {
             this.pageList = list.data;
         });
     }

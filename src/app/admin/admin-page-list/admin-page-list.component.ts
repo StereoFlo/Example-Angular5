@@ -14,7 +14,7 @@ export class AdminPageListComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.adminService.getList().then(list => {
+        this.adminService.getList().subscribe(list => {
             this.pageList = list.data;
         });
     }

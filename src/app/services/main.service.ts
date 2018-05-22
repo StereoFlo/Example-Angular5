@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {PageInterface} from '../interfeces/page-interface';
 import {AuthService} from './auth.service';
 import {environment} from '../../environments/environment';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class MainService {
@@ -18,22 +19,20 @@ export class MainService {
 
     /**
      * @param {string} pageName
-     * @returns {Promise<PageInterface>}
+     * @returns {Observable<PageInterface>}
      */
-    getPage(pageName: string = null): Promise<PageInterface> {
+    getPage(pageName: string = null): Observable<PageInterface> {
         if (pageName) {
             return this
                 .httpClient
                 .get<PageInterface>(
                     this.environment.apiSchema + this.environment.apiHost + '/page/' + pageName,
                     {headers: this.getHeaders()}
-                    )
-                .toPromise();
+                    );
         }
         return this
             .httpClient
-            .get<PageInterface>(this.environment.apiSchema + this.environment.apiHost + '/page/default', {headers: this.getHeaders()})
-            .toPromise();
+            .get<PageInterface>(this.environment.apiSchema + this.environment.apiHost + '/page/default', {headers: this.getHeaders()});
     }
 
     /**

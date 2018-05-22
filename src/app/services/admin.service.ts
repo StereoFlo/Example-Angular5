@@ -6,6 +6,7 @@ import {environment} from '../../environments/environment';
 import {PageInterface} from '../interfeces/page-interface';
 import {ResponseInterface} from '../interfeces/response-interface';
 import {Router} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class AdminService {
@@ -21,27 +22,25 @@ export class AdminService {
     }
 
     /**
-     * @returns {Promise<AdminPageList>}
+     * @returns {Observable<AdminPageList>}
      */
-    getList(): Promise<AdminPageList> {
+    getList(): Observable<AdminPageList> {
         return this
             .httpClient
-            .get<AdminPageList>(this.environment.apiSchema + this.environment.apiHost + '/admin/page/list', {headers: this.getHeaders()})
-            .toPromise();
+            .get<AdminPageList>(this.environment.apiSchema + this.environment.apiHost + '/admin/page/list', {headers: this.getHeaders()});
     }
 
     /**
      * @param {string} pageId
-     * @returns {Promise<PageInterface>}
+     * @returns {Observable<PageInterface>}
      */
-    getPage(pageId: string = null): Promise<PageInterface> {
+    getPage(pageId: string = null): Observable<PageInterface> {
         if (!pageId) {
             throw new Error('pageId is required parameter');
         }
         return this
             .httpClient
-            .get<PageInterface>(this.environment.apiSchema + this.environment.apiHost + '/admin/page/' + pageId, {headers: this.getHeaders()})
-            .toPromise();
+            .get<PageInterface>(this.environment.apiSchema + this.environment.apiHost + '/admin/page/' + pageId, {headers: this.getHeaders()});
     }
 
     /**
