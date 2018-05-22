@@ -4,9 +4,9 @@ import {PageComponent} from './page/page.component';
 import {ErrorComponent} from './error/error.component';
 
 const routes: Routes = [
-    {path: '', component: PageComponent},
     {path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
     {path: 'admin', loadChildren: './admin/admin.module#AdminModule'},
+    {path: '', component: PageComponent},
     {path: ':slug', component: PageComponent},
     {path: '**', component: ErrorComponent},
 ];
