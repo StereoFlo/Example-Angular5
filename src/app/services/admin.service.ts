@@ -44,6 +44,16 @@ export class AdminService {
     }
 
     /**
+     * deletes a page by id
+     * @param {string} pageId
+     * @returns {Observable<ResponseInterface>}
+     */
+    deletePage(pageId: string): Observable<ResponseInterface> {
+        return this.httpClient
+            .post<ResponseInterface>(this.environment.apiSchema + this.environment.apiHost + '/admin/page/delete', {pageId: pageId}, {headers: this.getHeaders()})
+    }
+
+    /**
      *
      * @param {string} pageId
      * @param {string} title
