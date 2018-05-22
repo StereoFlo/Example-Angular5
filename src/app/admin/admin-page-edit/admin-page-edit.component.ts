@@ -1,9 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {NgForm} from '@angular/forms';
-import {PageInterface} from '../../interfeces/page-interface';
 import {ResponseInterface} from '../../interfeces/response-interface';
-import {Page} from '../../classes/page';
 import {AdminService} from '../../services/admin.service';
 import {Response} from '../../classes/response';
 
@@ -14,9 +12,9 @@ import {Response} from '../../classes/response';
 })
 export class AdminPageEditComponent implements OnInit {
 
-    page: PageInterface = new Page();
     response: ResponseInterface = new Response();
     pageList = [];
+    pageId = '';
     pageTitle = '';
     pageContent = '';
     pageSlug = '';
@@ -29,7 +27,7 @@ export class AdminPageEditComponent implements OnInit {
     ngOnInit() {
         if (this.route.snapshot.params['pageId']) {
             this.adminService.getPage(this.route.snapshot.params['pageId']).then(page => {
-                this.page = page;
+                this.pageId = page.data.pageId;
                 this.pageTitle = page.data.title;
                 this.pageContent = page.data.content;
                 this.pageSlug = page.data.slug;

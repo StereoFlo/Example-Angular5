@@ -2,8 +2,8 @@ import {PageInterface} from '../interfeces/page-interface';
 import {ResponseInterface} from '../interfeces/response-interface';
 
 export class Page implements PageInterface, ResponseInterface {
-    message: string;
-    success: boolean;
+    message: '';
+    success: false;
     data: {
         pageId: '';
         title: '';
@@ -13,4 +13,10 @@ export class Page implements PageInterface, ResponseInterface {
         createdAt: '';
         updatedAt: '';
     };
+
+    constructor(values: Object = {}) {
+        if (values) {
+            Object.assign(this, values);
+        }
+    }
 }
