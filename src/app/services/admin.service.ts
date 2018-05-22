@@ -40,7 +40,10 @@ export class AdminService {
         }
         return this
             .httpClient
-            .get<PageInterface>(this.environment.apiSchema + this.environment.apiHost + '/admin/page/' + pageId, {headers: this.getHeaders()});
+            .get<PageInterface>(
+                this.environment.apiSchema + this.environment.apiHost + '/admin/page/' + pageId,
+                {headers: this.getHeaders()}
+                );
     }
 
     /**
@@ -50,7 +53,10 @@ export class AdminService {
      */
     deletePage(pageId: string): Observable<ResponseInterface> {
         return this.httpClient
-            .post<ResponseInterface>(this.environment.apiSchema + this.environment.apiHost + '/admin/page/delete', {pageId: pageId}, {headers: this.getHeaders()})
+            .delete<ResponseInterface>(
+                this.environment.apiSchema + this.environment.apiHost + '/admin/page/' + pageId + '/delete',
+                {headers: this.getHeaders()}
+                );
     }
 
     /**
