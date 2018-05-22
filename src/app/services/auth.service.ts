@@ -53,10 +53,13 @@ export class AuthService {
      * logout
      */
     logout(): void {
-        if (this.getFromLocalStorage()) {
+        const hasToken = this.getFromLocalStorage();
+        if (hasToken) {
             this.httpClient.post(
                 this.environment.apiSchema + this.environment.apiHost + '/auth/logout', {token: this.getFromLocalStorage()}
-                );
+                ).toPromise().then(data => {
+                    console.log(data);
+            });
             this.removeToken();
         }
     }
