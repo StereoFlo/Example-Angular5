@@ -4,6 +4,8 @@ import {NgForm} from '@angular/forms';
 import {ResponseInterface} from '../../interfeces/response-interface';
 import {AdminService} from '../../services/admin.service';
 import {Response} from '../../classes/response';
+import {PageInterface} from '../../interfeces/page-interface';
+import {Page} from '../../classes/page';
 
 @Component({
     selector: 'app-admin-page-edit',
@@ -13,12 +15,8 @@ import {Response} from '../../classes/response';
 export class PageEditComponent implements OnInit {
 
     response: ResponseInterface = new Response();
+    page: PageInterface = new Page();
     pageList = [];
-    pageId = '';
-    pageTitle = '';
-    pageContent = '';
-    pageSlug = '';
-    pageIsDefault = false;
 
     constructor(private adminService: AdminService, private route: ActivatedRoute) {
         this.adminService.checkAuth();
@@ -26,12 +24,8 @@ export class PageEditComponent implements OnInit {
 
     ngOnInit() {
         if (this.route.snapshot.params['pageId']) {
-            this.adminService.getPage(this.route.snapshot.params['pageId']).subscribe(page => {
-                this.pageId = page.data.pageId;
-                this.pageTitle = page.data.title;
-                this.pageContent = page.data.content;
-                this.pageSlug = page.data.slug;
-                this.pageIsDefault = page.data.isDefault;
+            this.adminService.getPage(this.route.snapshot.params['pageId']).subscribe(response => {
+                this.page  = new Page(response.data);
             }, error => {
                 this.response.success = error.success;
                 this.response.message = error.message;

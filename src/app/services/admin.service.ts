@@ -3,7 +3,6 @@ import {AuthService} from './auth.service';
 import {HttpClient} from '@angular/common/http';
 import {AdminPageList} from '../interfeces/admin-page-list';
 import {environment} from '../../environments/environment';
-import {PageInterface} from '../interfeces/page-interface';
 import {ResponseInterface} from '../interfeces/response-interface';
 import {Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
@@ -32,15 +31,15 @@ export class AdminService {
 
     /**
      * @param {string} pageId
-     * @returns {Observable<PageInterface>}
+     * @returns {Observable<ResponseInterface>}
      */
-    getPage(pageId: string = null): Observable<PageInterface> {
+    getPage(pageId: string = null): Observable<ResponseInterface> {
         if (!pageId) {
             throw new Error('pageId is required parameter');
         }
         return this
             .httpClient
-            .get<PageInterface>(
+            .get<ResponseInterface>(
                 this.environment.apiSchema + this.environment.apiHost + '/admin/page/' + pageId,
                 {headers: this.getHeaders()}
                 );

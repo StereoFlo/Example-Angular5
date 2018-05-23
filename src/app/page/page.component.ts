@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {MainService} from '../services/main.service';
 import {ActivatedRoute} from '@angular/router';
+import {Page} from '../classes/page';
+import {PageInterface} from '../interfeces/page-interface';
 
 @Component({
     selector: 'app-page',
@@ -9,8 +11,7 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class PageComponent implements OnInit {
 
-    title: string;
-    content: string;
+    page: PageInterface = new Page();
     isError = false;
     errorMessage = 'Произошла ошибка';
 
@@ -18,8 +19,7 @@ export class PageComponent implements OnInit {
 
     ngOnInit() {
         return this.mainService.getPage(this.route.snapshot.params['slug']).subscribe(response => {
-            this.title = response.data.title;
-            this.content = response.data.content;
+            this.page = new Page(response.data);
         }, error => {
                 this.isError = true;
                 this.errorMessage = error.error.message;
