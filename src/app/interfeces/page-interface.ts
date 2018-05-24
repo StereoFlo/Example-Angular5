@@ -3,6 +3,7 @@ export interface PageInterface {
     title: string;
     content: string;
     slug: string;
+    parentId: string;
     isDefault: boolean;
     createdAt: string;
     updatedAt: string;

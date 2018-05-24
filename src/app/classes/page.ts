@@ -8,6 +8,7 @@ export class Page implements PageInterface {
     isDefault: false;
     createdAt: '';
     updatedAt: '';
+    parentId: string;
 
     constructor(values: Object = {}) {
         if (values) {

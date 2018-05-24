@@ -3,36 +3,36 @@
     <form #pageForm="ngForm" (ngSubmit)="onSubmit(pageForm)" class="col s12">
         <div class="row">
             <div class="input-field col s12">
-                <input id="title" name="title" type="text" class="validate" value="{{ page.title }}" ngModel required>
+                <input id="title" name="title" type="text" class="validate" [value]="page.title" [ngModel]="page.title" required>
                 <label for="title">title</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s12">
-                <input id="content" name="content" type="text" class="validate" value="{{ page.content }}" ngModel required>
+                <input id="content" name="content" type="text" [value]="page.content" class="validate" [ngModel]="page.content" required>
                 <label for="content">content</label>
             </div>
         </div>
         <div class="row">
             <div class="input-field col s12">
-                <input id="slug" type="text" name="slug" class="validate" value="{{ page.slug }}" ngModel required>
+                <input id="slug" type="text" name="slug" class="validate" [value]="page.slug" [ngModel]="page.slug" required>
                 <label for="slug">slug</label>
             </div>
         </div>
         <div class="row">
             <label for="parentId">Select the parentId for page</label>
-            <select name="parentId" id="parentId" class="browser-default">
+            <select name="parentId" id="parentId" class="browser-default" [ngModel]="page.parentId">
                 <option value="" selected>none</option>
-                <option *ngFor="let page of pageList" value="{{ page.pageId }}">{{ page.title }}</option>
+                <option *ngFor="let page of pageList" [value]="page.pageId ">{{ page.title }}</option>
             </select>
         </div>
         <div class="row">
             <label>
-                <input type="checkbox" class="filled-in" name="isDefault" checked="{{ page.isDefault }}"  ngModel />
+                <input type="checkbox" class="filled-in" name="isDefault" [checked]="page.isDefault" [ngModel]="page.isDefault">
                 <span>is default page?</span>
             </label>
         </div>
         <button type="submit" class="btn btn-success">Submit</button>
-        <input *ngIf="page.pageId" type="hidden" name="pageId" value="{{ page.pageId }}">
+        <input type="hidden" name="pageId" [value]="page.pageId" [ngModel]="page.pageId">
     </form>
 </div>
