@@ -6,17 +6,41 @@ import { environment } from '../../environments/environment';
 @Injectable()
 export class AuthService {
 
-    tokenName = 'token';
+    /**
+     * @type {string}
+     */
+    tokenName: string = 'token';
+
+    /**
+     * @type {boolean}
+     */
     isAuth = false;
-    token = '';
-    errorMessage = '';
+
+    /**
+     * @type {string}
+     */
+    token: string = '';
+
+    /**
+     * message when error
+     * @type {string}
+     */
+    errorMessage: string = '';
+
+    /**
+     * environment
+     */
     private environment;
 
+    /**
+     * @param {HttpClient} httpClient
+     */
     constructor(private httpClient: HttpClient) {
         this.environment = environment;
         this.isAuth = !!this.getFromLocalStorage();
         if (this.isAuth) {
             this.token = this.getFromLocalStorage();
+            this.tokenCheck();
         }
     }
 
@@ -29,6 +53,7 @@ export class AuthService {
         if (this.getFromLocalStorage()) {
             this.isAuth = true;
             this.token = this.getFromLocalStorage();
+            return;
         }
         return this.httpClient
             .post<LoginInterface>(this.environment.apiSchema + this.environment.apiHost + '/auth/login', {email: email, password: password})
@@ -65,6 +90,21 @@ export class AuthService {
     }
 
     /**
+     * checks for token
+     */
+    tokenCheck(): void {
+        this.httpClient
+            .get(this.environment.apiSchema + this.environment.apiHost + '/user', {headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-TOKEN': this.token
+                }})
+            .toPromise()
+            .catch(() => {
+                this.removeToken();
+            });
+    }
+
+    /**
      * @returns {string}
      */
     private getFromLocalStorage(): string {
@@ -85,6 +125,7 @@ export class AuthService {
      */
     private removeToken(): boolean {
         localStorage.removeItem(this.tokenName);
+        this.token = '';
         return true;
     }
 }
