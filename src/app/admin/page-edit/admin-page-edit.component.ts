@@ -30,13 +30,19 @@ export class PageEditComponent implements OnInit {
                 this.response.success = error.success;
                 this.response.message = error.message;
             });
+            return;
         }
-        this.adminService.getList().subscribe(list => {
-            this.pageList = list.data;
-        });
+        if (this.pageList.length <= 0) {
+            this.adminService.getList().subscribe(list => {
+                this.pageList = list.data;
+            });
+        }
     }
 
-    onSubmit(pageForm: NgForm) {
+    /**
+     * @param {NgForm} pageForm
+     */
+    onSubmit(pageForm: NgForm): void {
         this
             .adminService
             .savePage(
