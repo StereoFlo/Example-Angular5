@@ -83,7 +83,7 @@ export class AdminService {
     /**
      * @returns {boolean}
      */
-    private checkAuth(): boolean {
+    checkAuth(): boolean {
         if (!this.authService.isAuth) {
             this.router.navigate(['']);
             return;
