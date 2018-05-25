@@ -26,6 +26,6 @@
         {{ page.isDefault }}
     </div>
     <div class="col s3">
-        <a class="btn" [routerLink]="['page', page.pageId]">Edit</a> <button type="button" (click)="deletePage(page.pageId)" class="btn">Remove</button>
+        <a class="btn" [routerLink]="['page', page.pageId]"><i class="material-icons">edit</i></a> <button type="button" (click)="deletePage(page.pageId)" class="btn"><i class="material-icons">delete</i></button>
     </div>
 </div>
