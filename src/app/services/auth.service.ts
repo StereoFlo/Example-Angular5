@@ -89,7 +89,12 @@ export class AuthService {
                 this.setToLocalStorage(this._token);
                 return this;
             }).catch(error => {
-                this.errorMessage = error.error.message;
+                if (error && error.error) {
+                    this.errorMessage = error.error.message;
+                } else {
+                    this.errorMessage = 'Ошибка приложения';
+                    console.log(error);
+                }
                 return this;
             });
     }
