@@ -60,6 +60,22 @@ export class Storage {
     }
 
     /**
+     * removes data from storage
+     */
+    removeFromStorage() {
+        switch (this.currentStorage) {
+            case Storage.localStorage:
+                localStorage.removeItem(this.dataKey);
+                break;
+            case Storage.sessionStorage:
+                sessionStorage.removeItem(this.dataKey);
+                break;
+            default:
+                throw new Error('Invalid storage identifier');
+        }
+    }
+
+    /**
      * @returns {any}
      */
     getFromStorage(): any {

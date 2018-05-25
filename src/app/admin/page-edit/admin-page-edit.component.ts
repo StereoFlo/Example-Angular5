@@ -24,14 +24,19 @@ export class PageEditComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.getPage();
         this.getList();
+        this.getPage();
     }
 
     /**
      * @param {NgForm} pageForm
      */
     onSubmit(pageForm: NgForm): void {
+        if (pageForm.value.pageId) {
+            const storage = new Storage();
+            storage.dataKey = 'page' + pageForm.value.pageId;
+            storage.removeFromStorage();
+        }
         this
             .adminService
             .savePage(
@@ -75,8 +80,19 @@ export class PageEditComponent implements OnInit {
      */
     private getPage(): void {
         if (this.route.snapshot.params['pageId']) {
+            const storage = new Storage();
+            storage.dataKey = 'page' + this.route.snapshot.params['pageId'];
+            storage.ttl = 300;
+            storage.currentStorage = Storage.sessionStorage;
+            const page = storage.getFromStorage();
+            if (page) {
+                this.pageList = page;
+                return;
+            }
             this.adminService.getPage(this.route.snapshot.params['pageId']).subscribe(response => {
                 this.page  = new Page(response.data);
+                storage.data = this.page;
+                storage.store();
             }, error => {
                 this.response.success = error.success;
                 this.response.message = error.message;
