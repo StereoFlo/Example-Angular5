@@ -67,14 +67,6 @@ export class AuthService {
     }
 
     /**
-     * current user
-     * @returns {UserInterface}
-     */
-    get user(): UserInterface {
-        return this._user;
-    }
-
-    /**
      * @param {string} email
      * @param {string} password
      * @returns {Promise}
@@ -94,7 +86,7 @@ export class AuthService {
                 this._isAuth = true;
                 this._user = new User(response.data);
                 this._token = this._user.apiToken.key;
-                this.setToLocalSorage(this._token);
+                this.setToLocalStorage(this._token);
                 return this;
             }).catch(error => {
                 this.errorMessage = error.error.message;
@@ -145,7 +137,7 @@ export class AuthService {
      * @param {string} tokenValue
      * @returns {boolean}
      */
-    private setToLocalSorage(tokenValue: string): boolean {
+    private setToLocalStorage(tokenValue: string): boolean {
         localStorage.setItem(this.tokenName, tokenValue);
         return true;
     }

@@ -14,6 +14,26 @@ export class User implements UserInterface {
     }
 
 
+    set apiToken(value: { key: string }) {
+        this._apiToken = value;
+    }
+
+    set email(value: string) {
+        this._email = value;
+    }
+
+    set roles(value: { list: [string] }) {
+        this._roles = value;
+    }
+
+    set userId(value: string) {
+        this._userId = value;
+    }
+
+    set username(value: string) {
+        this._username = value;
+    }
+
     get apiToken(): { key: string } {
         return this._apiToken;
     }
