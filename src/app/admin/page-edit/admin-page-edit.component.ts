@@ -35,6 +35,7 @@ export class PageEditComponent implements OnInit {
         if (pageForm.value.pageId) {
             const storage = new Storage();
             storage.dataKey = 'page' + pageForm.value.pageId;
+            storage.currentStorage = Storage.sessionStorage;
             storage.removeFromStorage();
         }
         this
