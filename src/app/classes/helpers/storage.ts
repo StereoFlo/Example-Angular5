@@ -73,6 +73,7 @@ export class Storage {
                     localStorage.removeItem(this.dataKey);
                     return null;
                 }
+                this.data = localStorage.data;
                 return localData.data;
             case Storage.sessionStorage:
                 const sessionData = JSON.parse(sessionStorage.getItem(this.dataKey));
@@ -83,6 +84,7 @@ export class Storage {
                     sessionStorage.removeItem(this.dataKey);
                     return null;
                 }
+                this.data = sessionData.data;
                 return sessionData.data;
             default:
                 throw new Error('Invalid storage identifier');
