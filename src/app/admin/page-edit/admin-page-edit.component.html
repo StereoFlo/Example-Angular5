@@ -50,7 +50,10 @@
                 <span>is default page?</span>
             </label>
         </div>
-        <button type="submit" *ngIf="pageForm.valid" class="btn btn-success">Submit</button>
+        <button type="submit" *ngIf="pageForm.valid" class="btn"><i class="material-icons">save</i></button>
+        <a class="btn" [routerLink]="['/admin']">
+            <i class="material-icons">cancel</i>
+        </a>
         <input type="hidden" name="pageId" [value]="page.pageId" [ngModel]="page.pageId">
     </form>
 </div>
