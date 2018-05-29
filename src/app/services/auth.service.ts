@@ -1,23 +1,69 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {LoginInterface} from '../interfeces/login-interface';
-import { environment } from '../../environments/environment';
+import {UserInterface} from '../interfeces/user-interface';
+import {environment} from '../../environments/environment';
+import {ResponseInterface} from '../interfeces/response-interface';
+import {User} from '../classes/user';
 
 @Injectable()
 export class AuthService {
 
-    tokenName = 'token';
-    isAuth = false;
-    token = '';
-    errorMessage = '';
+    /**
+     * @type {string}
+     */
+    tokenName: string = '_token';
+
+    /**
+     * @type {boolean}
+     */
+    private _isAuth = false;
+
+    /**
+     * @type {string}
+     */
+    private _token: string = '';
+
+    /**
+     * message when error
+     * @type {string}
+     */
+    errorMessage: string = '';
+
+    /**
+     * current user
+     */
+    private _user: UserInterface;
+
+    /**
+     * environment
+     */
     private environment;
 
+    /**
+     * @param {HttpClient} httpClient
+     */
     constructor(private httpClient: HttpClient) {
         this.environment = environment;
-        this.isAuth = !!this.getFromLocalStorage();
-        if (this.isAuth) {
-            this.token = this.getFromLocalStorage();
+        this._isAuth = !!this.getFromLocalStorage();
+        if (this._isAuth) {
+            this._token = this.getFromLocalStorage();
+            this.tokenCheck();
         }
+    }
+
+    /**
+     * @returns {boolean}
+     */
+    get isAuth(): boolean {
+        return this._isAuth;
+    }
+
+    /**
+     * current token
+     * @returns {string}
+     */
+    get token(): string {
+        return this._token;
     }
 
     /**
@@ -27,24 +73,28 @@ export class AuthService {
      */
     login(email: string, password: string): Promise<AuthService> {
         if (this.getFromLocalStorage()) {
-            this.isAuth = true;
-            this.token = this.getFromLocalStorage();
+            this._isAuth = true;
+            this._token = this.getFromLocalStorage();
+            return;
         }
         return this.httpClient
-            .post<LoginInterface>(this.environment.apiSchema + this.environment.apiHost + '/auth/login', {email: email, password: password})
+            .post<ResponseInterface>(this.environment.apiSchema + this.environment.apiHost + '/auth/login', {
+                email: email,
+                password: password
+            })
             .toPromise().then(response => {
-                if (response.success === true) {
-                    if (response.data.token) {
-                        this.setToLocalSorage(response.data.token);
-                        this.isAuth = true;
-                        this.token = response.data.token;
-                        return this;
-                    }
-                    return this;
-                }
+                this._isAuth = true;
+                this._user = new User(response.data);
+                this._token = this._user.apiToken.key;
+                this.setToLocalStorage(this._token);
                 return this;
             }).catch(error => {
-                this.errorMessage = error.error.message;
+                if (error && error.error) {
+                    this.errorMessage = error.error.message;
+                } else {
+                    this.errorMessage = 'Ошибка приложения';
+                    console.log(error);
+                }
                 return this;
             });
     }
@@ -53,12 +103,32 @@ export class AuthService {
      * logout
      */
     logout(): void {
-        if (this.getFromLocalStorage()) {
+        const hasToken = this.getFromLocalStorage();
+        if (hasToken) {
             this.httpClient.post(
                 this.environment.apiSchema + this.environment.apiHost + '/auth/logout', {token: this.getFromLocalStorage()}
-                );
+            ).toPromise().then(data => {
+                console.log(data);
+            });
             this.removeToken();
         }
+    }
+
+    /**
+     * checks for token
+     */
+    tokenCheck(): void {
+        this.httpClient
+            .get(this.environment.apiSchema + this.environment.apiHost + '/user', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-TOKEN': this._token
+                }
+            })
+            .toPromise()
+            .catch(() => {
+                this.removeToken();
+            });
     }
 
     /**
@@ -72,7 +142,7 @@ export class AuthService {
      * @param {string} tokenValue
      * @returns {boolean}
      */
-    private setToLocalSorage(tokenValue: string): boolean {
+    private setToLocalStorage(tokenValue: string): boolean {
         localStorage.setItem(this.tokenName, tokenValue);
         return true;
     }
@@ -82,6 +152,7 @@ export class AuthService {
      */
     private removeToken(): boolean {
         localStorage.removeItem(this.tokenName);
+        this._token = '';
         return true;
     }
 }

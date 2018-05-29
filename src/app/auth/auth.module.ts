@@ -6,12 +6,14 @@ import {AdminService} from '../services/admin.service';
 import {AuthService} from '../services/auth.service';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import {AuthRoutingModule} from './auth-routing.module';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
         HttpClientModule,
+        AuthRoutingModule
     ],
     declarations: [
         LoginComponent,

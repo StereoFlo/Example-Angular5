@@ -1,4 +1,7 @@
 <div class="row">
+    <a class="btn" [routerLink]="['/admin/page']">Create new page</a>
+</div>
+<div class="row">
     <div class="col s3">
         Заголовок
     </div>
@@ -23,6 +26,7 @@
         {{ page.isDefault }}
     </div>
     <div class="col s3">
-        <a [routerLink]="['page', page.pageId]">Edit</a>
+        <a class="btn" [routerLink]="['page', page.pageId]"><i class="material-icons">edit</i></a>
+        <button type="button" (click)="deletePage(page.pageId)" class="btn"><i class="material-icons">delete</i></button>
     </div>
 </div>

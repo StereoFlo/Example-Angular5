@@ -3,6 +3,8 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {PageInterface} from '../interfeces/page-interface';
 import {AuthService} from './auth.service';
 import {environment} from '../../environments/environment';
+import {Observable} from 'rxjs/Observable';
+import {ResponseInterface} from '../interfeces/response-interface';
 
 @Injectable()
 export class MainService {
@@ -12,28 +14,33 @@ export class MainService {
      */
     private environment;
 
+    /**
+     * @param {HttpClient} httpClient
+     * @param {AuthService} authService
+     */
     constructor(private httpClient: HttpClient, private authService: AuthService) {
         this.environment = environment;
     }
 
     /**
      * @param {string} pageName
-     * @returns {Promise<PageInterface>}
+     * @returns {Observable<PageInterface>}
      */
-    getPage(pageName: string = null): Promise<PageInterface> {
-        if (pageName) {
-            return this
-                .httpClient
-                .get<PageInterface>(
-                    this.environment.apiSchema + this.environment.apiHost + '/page/' + pageName,
-                    {headers: this.getHeaders()}
-                    )
-                .toPromise();
-        }
+    getPage(pageName: string = null): Observable<ResponseInterface> {
         return this
             .httpClient
-            .get<PageInterface>(this.environment.apiSchema + this.environment.apiHost + '/page/default', {headers: this.getHeaders()})
-            .toPromise();
+            .get<ResponseInterface>(this.getUrl(pageName), {headers: this.getHeaders()});
+    }
+
+    /**
+     * @param {string} pageName
+     * @returns {string}
+     */
+    private getUrl(pageName: string = null): string {
+        if (pageName) {
+            return this.environment.apiSchema + this.environment.apiHost + '/page/' + pageName;
+        }
+        return this.environment.apiSchema + this.environment.apiHost + '/page/default';
     }
 
     /**
