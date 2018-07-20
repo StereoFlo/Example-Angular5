@@ -11,7 +11,7 @@ export class AuthService {
     /**
      * @type {string}
      */
-    tokenName: string = '_token';
+    tokenName = '_token';
 
     /**
      * @type {boolean}
@@ -21,13 +21,13 @@ export class AuthService {
     /**
      * @type {string}
      */
-    private _token: string = '';
+    private _token = '';
 
     /**
      * message when error
      * @type {string}
      */
-    errorMessage: string = '';
+    errorMessage = '';
 
     /**
      * current user
@@ -112,6 +112,10 @@ export class AuthService {
             });
             this.removeToken();
         }
+    }
+
+    register(form) {
+      return this.httpClient.post(this.environment.apiSchema + this.environment.apiHost + '/auth/register', form).toPromise();
     }
 
     /**
