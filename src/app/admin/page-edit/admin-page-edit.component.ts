@@ -33,9 +33,7 @@ export class PageEditComponent implements OnInit {
      */
     onSubmit(pageForm: NgForm): void {
         if (pageForm.value.pageId) {
-            const storage = new Storage();
-            storage.dataKey = 'page' + pageForm.value.pageId;
-            storage.currentStorage = Storage.sessionStorage;
+            const storage = new Storage(Storage.sessionStorage, 'page' + pageForm.value.pageId);
             storage.removeFromStorage();
         }
         this
@@ -60,10 +58,7 @@ export class PageEditComponent implements OnInit {
      * get page list
      */
     private getList(): void {
-        const storage = new Storage();
-        storage.dataKey = 'pageList';
-        storage.ttl = 300;
-        storage.currentStorage = Storage.sessionStorage;
+        const storage = new Storage(Storage.sessionStorage, 'pageList', 300);
         const pageList = storage.getFromStorage();
         if (pageList) {
             this.pageList = pageList;
@@ -81,10 +76,7 @@ export class PageEditComponent implements OnInit {
      */
     private getPage(): void {
         if (this.route.snapshot.params['pageId']) {
-            const storage = new Storage();
-            storage.dataKey = 'page' + this.route.snapshot.params['pageId'];
-            storage.ttl = 300;
-            storage.currentStorage = Storage.sessionStorage;
+            const storage = new Storage(Storage.sessionStorage, 'page' + this.route.snapshot.params['pageId'], 300);
             const page = storage.getFromStorage();
             if (page) {
                 this.pageList = page;
