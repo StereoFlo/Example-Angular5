@@ -40,8 +40,10 @@
         <div class="row">
             <label for="parentId">Select the parentId for page</label>
             <select name="parentId" id="parentId" class="browser-default" [ngModel]="page.parentId">
-                <!--<option value="" selected>none</option>-->
-                <!--<option *ngFor="let page of pageList" [value]="page.pageId ">{{ page.title }}</option>-->
+                <option value="" selected>none</option>
+                <ng-container *ngFor="let pageSelect of pageList">
+                    <option *ngIf="pageSelect.pageId !== page.pageId" [value]="pageSelect.pageId">{{ pageSelect.title }}</option>
+                </ng-container>
             </select>
         </div>
         <div class="row">

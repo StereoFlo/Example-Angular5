@@ -35,6 +35,7 @@ export class Storage {
      */
     constructor(storage: number = 0, dataKey: string = '', ttl: number = 0) {
         this.initTimestamp();
+        this.currentStorage = storage;
         this.dataKey = dataKey;
         this.ttl = ttl;
     }

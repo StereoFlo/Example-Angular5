@@ -23,6 +23,23 @@ export class PageEditComponent implements OnInit {
         this.adminService.checkAuth();
     }
 
+    /**
+     * returns a new instance of Storage
+     * @returns {Storage}
+     */
+    private static getListStorage(): Storage {
+        return new Storage(Storage.sessionStorage, 'pageList', 300);
+    }
+
+    /**
+     * Returns a new onstans of storage by pageId
+     * @param {string} pageId
+     * @returns {Storage}
+     */
+    private static getPageStorage(pageId: string): Storage {
+        return new Storage(Storage.sessionStorage, 'page' + pageId, 300);
+    }
+
     ngOnInit() {
         this.getList();
         this.getPage();
@@ -33,8 +50,8 @@ export class PageEditComponent implements OnInit {
      */
     onSubmit(pageForm: NgForm): void {
         if (pageForm.value.pageId) {
-            const storage = new Storage(Storage.sessionStorage, 'page' + pageForm.value.pageId);
-            storage.removeFromStorage();
+            PageEditComponent.getPageStorage(pageForm.value.pageId).removeFromStorage();
+            PageEditComponent.getListStorage().removeFromStorage();
         }
         this
             .adminService
@@ -58,7 +75,7 @@ export class PageEditComponent implements OnInit {
      * get page list
      */
     private getList(): void {
-        const storage = new Storage(Storage.sessionStorage, 'pageList', 300);
+        const storage = PageEditComponent.getListStorage();
         const pageList = storage.getFromStorage();
         if (pageList) {
             this.pageList = pageList;
@@ -76,14 +93,14 @@ export class PageEditComponent implements OnInit {
      */
     private getPage(): void {
         if (this.route.snapshot.params['pageId']) {
-            const storage = new Storage(Storage.sessionStorage, 'page' + this.route.snapshot.params['pageId'], 300);
+            const storage = PageEditComponent.getPageStorage(this.route.snapshot.params['pageId']);
             const page = storage.getFromStorage();
             if (page) {
-                this.pageList = page;
+                this.page = page;
                 return;
             }
             this.adminService.getPage(this.route.snapshot.params['pageId']).subscribe(response => {
-                this.page  = new Page(response.data);
+                this.page = new Page(response.data);
                 storage.data = this.page;
                 storage.store();
             }, error => {
