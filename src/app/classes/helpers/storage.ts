@@ -11,7 +11,7 @@ export class Storage {
      * data key
      * @type {string}
      */
-    dataKey: string = '';
+    dataKey: string;
 
     /**
      * data to save
@@ -22,19 +22,54 @@ export class Storage {
      * current timestamp
      * @type {number}
      */
-    timestamp: number = 0;
+    timestamp: number;
 
     /**
      * time to live the data
      * @type {number}
      */
-    ttl: number = 0;
+    ttl: number;
 
     /**
      * constructor
      */
-    constructor() {
+    constructor(storage: number = 0, dataKey: string = '', ttl: number = 0) {
         this.initTimestamp();
+        this.currentStorage = storage;
+        this.dataKey = dataKey;
+        this.ttl = ttl;
+    }
+
+    /**
+     * @param {string} key
+     * @param {string} data
+     */
+    private static storeSession(key: string, data: string): void {
+        sessionStorage.setItem(key, data);
+    }
+
+    /**
+     * @param {string} key
+     * @param {string} data
+     */
+    private static storeLocal(key: string, data: string): void {
+        localStorage.setItem(key, data);
+    }
+
+    /**
+     * @param data
+     * @returns {string}
+     */
+    private static getJson(data: any) {
+        return JSON.stringify(data);
+    }
+
+    /**
+     * init timestamp
+     */
+    private initTimestamp(): void {
+        const date = Date.now();
+        this.timestamp = Math.floor(date / 1000);
     }
 
     /**
@@ -105,37 +140,5 @@ export class Storage {
             default:
                 throw new Error('Invalid storage identifier');
         }
-    }
-
-    /**
-     * @param {string} key
-     * @param {string} data
-     */
-    private static storeLocal(key: string, data: string): void {
-        localStorage.setItem(key, data);
-    }
-
-    /**
-     * @param {string} key
-     * @param {string} data
-     */
-    private static storeSession(key: string, data: string): void {
-        sessionStorage.setItem(key, data);
-    }
-
-    /**
-     * init timestamp
-     */
-    private initTimestamp(): void {
-        const date = Date.now();
-        this.timestamp = Math.floor(date / 1000);
-    }
-
-    /**
-     * @param data
-     * @returns {string}
-     */
-    private static getJson(data: any) {
-        return JSON.stringify(data);
     }
 }
