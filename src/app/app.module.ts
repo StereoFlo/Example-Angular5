@@ -9,6 +9,7 @@ import {FormsModule} from '@angular/forms';
 import {MainService} from './services/main.service';
 import {ErrorComponent} from './error/error.component';
 import {AdminService} from './services/admin.service';
+import {AuthGuardService} from './services/auth-guard.service';
 
 @NgModule({
     declarations: [
@@ -22,7 +23,7 @@ import {AdminService} from './services/admin.service';
         HttpClientModule,
         FormsModule,
     ],
-    providers: [AuthService, MainService, AdminService],
+    providers: [AuthService, MainService, AdminService, AuthGuardService],
     bootstrap: [AppComponent]
 })
 export class AppModule {
