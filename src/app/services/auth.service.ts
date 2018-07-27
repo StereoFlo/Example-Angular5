@@ -5,6 +5,7 @@ import {environment} from '../../environments/environment';
 import {ResponseInterface} from '../interfeces/response-interface';
 import {User} from '../classes/user';
 import {Storage} from '../classes/helpers/storage';
+import {Observable, Subject} from 'rxjs';
 
 @Injectable()
 export class AuthService {
@@ -81,36 +82,38 @@ export class AuthService {
     /**
      * @param {string} email
      * @param {string} password
-     * @returns {Promise}
+     * @returns {Observable}
      */
-    login(email: string, password: string): Promise<AuthService> {
+    login(email: string, password: string): Subject<AuthService> {
+        const ret = new Subject<AuthService>();
         if (this.storage.getFromStorage()) {
             this._isAuth = true;
             this._token = this.storage.getFromStorage();
+            ret.next(this);
             return;
         }
-        return this.httpClient
+        this.httpClient
             .post<ResponseInterface>(this.environment.apiSchema + this.environment.apiHost + '/auth/login', {
                 email: email,
                 password: password
             })
-            .toPromise().then(response => {
+            .subscribe(response => {
                 this._isAuth = true;
                 this._user = new User(response.data);
                 this._token = this._user.apiToken.key;
                 this._isAdmin = this._user.roles === 'admin';
                 this.storage.data = this._token;
                 this.storage.store();
-                return this;
-            }).catch(error => {
+                ret.next(this);
+            }, error => {
                 if (error && error.error) {
                     this.errorMessage = error.error.message;
                 } else {
                     this.errorMessage = 'Ошибка приложения';
                     console.log(error);
                 }
-                return this;
             });
+        return ret;
     }
 
     /**
@@ -119,16 +122,16 @@ export class AuthService {
     logout(): void {
         const hasToken = this.storage.getFromLocalStorage();
         if (hasToken) {
-            this.httpClient.post(
+            this.httpClient.post<ResponseInterface>(
                 this.environment.apiSchema + this.environment.apiHost + '/auth/logout', {token: this.storage.getFromLocalStorage()}
-            ).toPromise().then(data => {
+            ).subscribe(data => {
                 console.log(data);
             });
             this.storage.removeFromStorage();
         }
     }
 
-    register(form) {
-      return this.httpClient.post(this.environment.apiSchema + this.environment.apiHost + '/auth/register', form).toPromise();
+    register(form): Observable<ResponseInterface> {
+      return this.httpClient.post<ResponseInterface>(this.environment.apiSchema + this.environment.apiHost + '/auth/register', form);
     }
 }

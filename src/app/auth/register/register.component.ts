@@ -29,7 +29,7 @@ export class RegisterComponent implements OnInit {
      */
     onSubmit(registerForm: NgForm): void {
         console.log(registerForm);
-        this.authService.register(registerForm.value).then(data => {
+        this.authService.register(registerForm.value).subscribe(data => {
             console.log(data);
         });
     }

@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
      */
     onSubmit(loginForm: NgForm): void {
         if (loginForm.value.email && loginForm.value.password) {
-            this.authService.login(loginForm.value.email, loginForm.value.password).then(data => {
+            this.authService.login(loginForm.value.email, loginForm.value.password).subscribe(data => {
                 if (data.isAuth && data.token) {
                     this.router.navigate(['']);
                     return;
