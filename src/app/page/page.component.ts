@@ -21,6 +21,7 @@ export class PageComponent implements OnInit {
         return this.mainService.getPage(this.route.snapshot.params['slug']).subscribe(response => {
             this.page = new Page(response.data);
         }, error => {
+            console.log(error);
                 this.isError = true;
                 this.errorMessage = error.error.message;
         });

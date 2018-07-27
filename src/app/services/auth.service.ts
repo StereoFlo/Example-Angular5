@@ -4,9 +4,11 @@ import {UserInterface} from '../interfeces/user-interface';
 import {environment} from '../../environments/environment';
 import {ResponseInterface} from '../interfeces/response-interface';
 import {User} from '../classes/user';
+import {Storage} from '../classes/helpers/storage';
 
 @Injectable()
 export class AuthService {
+
     /**
      * @type {string}
      */
@@ -45,19 +47,20 @@ export class AuthService {
     private environment;
 
     /**
+     * @type {Storage}
+     */
+    private storage;
+
+    /**
      * @param {HttpClient} httpClient
      */
     constructor(private httpClient: HttpClient) {
+        this.storage = new Storage(Storage.sessionStorage, this.tokenName, 300);
         this.environment = environment;
-        this._isAuth = !!this.getFromLocalStorage();
+        this._isAuth = !!this.storage.getFromStorage();
         if (this._isAuth) {
-            this._token = this.getFromLocalStorage();
-            this.tokenCheck();
+            this._token = this.storage.getFromStorage();
         }
-    }
-
-    get isAdmin(): boolean {
-        return this._isAdmin;
     }
 
     /**
@@ -81,9 +84,9 @@ export class AuthService {
      * @returns {Promise}
      */
     login(email: string, password: string): Promise<AuthService> {
-        if (this.getFromLocalStorage()) {
+        if (this.storage.getFromStorage()) {
             this._isAuth = true;
-            this._token = this.getFromLocalStorage();
+            this._token = this.storage.getFromStorage();
             return;
         }
         return this.httpClient
@@ -96,7 +99,8 @@ export class AuthService {
                 this._user = new User(response.data);
                 this._token = this._user.apiToken.key;
                 this._isAdmin = this._user.roles === 'admin';
-                this.setToLocalStorage(this._token);
+                this.storage.data = this._token;
+                this.storage.store();
                 return this;
             }).catch(error => {
                 if (error && error.error) {
@@ -113,60 +117,18 @@ export class AuthService {
      * logout
      */
     logout(): void {
-        const hasToken = this.getFromLocalStorage();
+        const hasToken = this.storage.getFromLocalStorage();
         if (hasToken) {
             this.httpClient.post(
-                this.environment.apiSchema + this.environment.apiHost + '/auth/logout', {token: this.getFromLocalStorage()}
+                this.environment.apiSchema + this.environment.apiHost + '/auth/logout', {token: this.storage.getFromLocalStorage()}
             ).toPromise().then(data => {
                 console.log(data);
             });
-            this.removeToken();
+            this.storage.removeFromStorage();
         }
     }
 
     register(form) {
       return this.httpClient.post(this.environment.apiSchema + this.environment.apiHost + '/auth/register', form).toPromise();
-    }
-
-    /**
-     * checks for token
-     */
-    tokenCheck(): void {
-        this.httpClient
-            .get(this.environment.apiSchema + this.environment.apiHost + '/user', {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-API-TOKEN': this._token
-                }
-            })
-            .toPromise()
-            .catch(() => {
-                this.removeToken();
-            });
-    }
-
-    /**
-     * @returns {string}
-     */
-    private getFromLocalStorage(): string {
-        return localStorage.getItem(this.tokenName);
-    }
-
-    /**
-     * @param {string} tokenValue
-     * @returns {boolean}
-     */
-    private setToLocalStorage(tokenValue: string): boolean {
-        localStorage.setItem(this.tokenName, tokenValue);
-        return true;
-    }
-
-    /**
-     * @return {boolean}
-     */
-    private removeToken(): boolean {
-        localStorage.removeItem(this.tokenName);
-        this._token = '';
-        return true;
     }
 }

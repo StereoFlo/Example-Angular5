@@ -29,8 +29,8 @@ export class PageListComponent implements OnInit {
                 this.message = data.message;
                 this.getList();
             }
-        }, error1 => {
-            this.message = error1.message;
+        }, error => {
+            this.message = error.message;
         });
     }
 
