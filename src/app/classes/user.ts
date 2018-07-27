@@ -3,7 +3,7 @@ import {UserInterface} from '../interfeces/user-interface';
 export class User implements UserInterface {
     private _apiToken: { key: string };
     private _email: string;
-    private _roles: { list: [string] };
+    private _roles: string;
     private _userId: string;
     private _username: string;
 
@@ -22,7 +22,7 @@ export class User implements UserInterface {
         this._email = value;
     }
 
-    set roles(value: { list: [string] }) {
+    set roles(value: string) {
         this._roles = value;
     }
 
@@ -42,7 +42,7 @@ export class User implements UserInterface {
         return this._email;
     }
 
-    get roles(): { list: [string] } {
+    get roles(): string {
         return this._roles;
     }
 
