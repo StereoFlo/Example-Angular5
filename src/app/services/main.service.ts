@@ -3,8 +3,8 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {PageInterface} from '../interfeces/page-interface';
 import {AuthService} from './auth.service';
 import {environment} from '../../environments/environment';
-import {Observable} from 'rxjs/Observable';
 import {ResponseInterface} from '../interfeces/response-interface';
+import {Observable} from 'rxjs';
 
 @Injectable()
 export class MainService {

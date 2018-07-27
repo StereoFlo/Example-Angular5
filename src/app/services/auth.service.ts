@@ -7,11 +7,16 @@ import {User} from '../classes/user';
 
 @Injectable()
 export class AuthService {
-
     /**
      * @type {string}
      */
     tokenName = '_token';
+
+    /**
+     * message when error
+     * @type {string}
+     */
+    errorMessage = '';
 
     /**
      * @type {boolean}
@@ -24,15 +29,15 @@ export class AuthService {
     private _token = '';
 
     /**
-     * message when error
-     * @type {string}
-     */
-    errorMessage = '';
-
-    /**
      * current user
      */
     private _user: UserInterface;
+
+    /**
+     * @type {boolean}
+     * @private
+     */
+    private _isAdmin = false;
 
     /**
      * environment
@@ -49,6 +54,10 @@ export class AuthService {
             this._token = this.getFromLocalStorage();
             this.tokenCheck();
         }
+    }
+
+    get isAdmin(): boolean {
+        return this._isAdmin;
     }
 
     /**
@@ -86,6 +95,7 @@ export class AuthService {
                 this._isAuth = true;
                 this._user = new User(response.data);
                 this._token = this._user.apiToken.key;
+                this._isAdmin = this._user.roles === 'admin';
                 this.setToLocalStorage(this._token);
                 return this;
             }).catch(error => {

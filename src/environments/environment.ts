@@ -6,5 +6,5 @@
 export const environment = {
     production: false,
     apiSchema: 'http://',
-    apiHost: 'api.bronnikov.lan',
+    apiHost: 'api.bronnikov.su',
 };

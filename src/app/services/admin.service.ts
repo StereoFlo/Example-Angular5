@@ -5,7 +5,7 @@ import {AdminPageList} from '../interfeces/admin-page-list';
 import {environment} from '../../environments/environment';
 import {ResponseInterface} from '../interfeces/response-interface';
 import {Router} from '@angular/router';
-import {Observable} from 'rxjs/Observable';
+import {Observable} from 'rxjs';
 
 @Injectable()
 export class AdminService {
