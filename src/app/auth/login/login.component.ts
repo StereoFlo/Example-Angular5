@@ -14,7 +14,7 @@ export class LoginComponent implements OnInit {
      * error message, if exists
      * @type {string}
      */
-    errorMessage : string = '';
+    errorMessage = '';
 
     constructor(private authService: AuthService, private router: Router) {}
 
