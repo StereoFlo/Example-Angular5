@@ -22,7 +22,11 @@ export class LoginComponent implements OnInit {
      * init
      */
     ngOnInit() {
-        if (this.authService.isAuth) {
+        let check = false;
+        this.authService.isAuth.subscribe(data => {
+            check = data;
+        });
+        if (check) {
             this.router.navigate(['']);
         }
     }
@@ -34,11 +38,15 @@ export class LoginComponent implements OnInit {
     onSubmit(loginForm: NgForm): void {
         if (loginForm.value.email && loginForm.value.password) {
             this.authService.login(loginForm.value.email, loginForm.value.password).subscribe(data => {
-                if (data.isAuth && data.token) {
+                let check = false;
+                this.authService.isAuth.subscribe(data1 => {
+                    check = data1;
+                });
+                if (check && data.token) {
                     this.router.navigate(['']);
                     return;
                 }
-                if (!data.isAuth && data.errorMessage) {
+                if (!check && data.errorMessage) {
                     this.errorMessage = data.errorMessage;
                     return;
                 }

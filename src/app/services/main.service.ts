@@ -49,7 +49,11 @@ export class MainService {
      */
     private getHeaders() {
         const headers = {'Content-Type': 'application/json'};
-        if (this.authService.isAuth) {
+        let check = false;
+        this.authService.isAuth.subscribe(data => {
+            check = data;
+        });
+        if (check) {
             headers['X-API-TOKEN'] = this.authService.token;
         }
         return headers;

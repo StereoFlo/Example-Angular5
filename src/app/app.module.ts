@@ -11,12 +11,14 @@ import {ErrorComponent} from './error/error.component';
 import {AdminService} from './services/admin.service';
 import {AuthGuardService} from './services/auth-guard.service';
 import {AuthInterceptor} from './interceptors/auth-interceptor';
+import { MenuComponent } from './menu/menu.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         PageComponent,
         ErrorComponent,
+        MenuComponent,
     ],
     imports: [
         BrowserModule,

@@ -5,7 +5,7 @@ import {environment} from '../../environments/environment';
 import {ResponseInterface} from '../interfeces/response-interface';
 import {User} from '../classes/user';
 import {Storage} from '../classes/helpers/storage';
-import {Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 
 @Injectable()
 export class AuthService {
@@ -24,7 +24,7 @@ export class AuthService {
     /**
      * @type {boolean}
      */
-    private _isAuth = false;
+    private _isAuth = new BehaviorSubject(false);
 
     /**
      * @type {string}
@@ -58,16 +58,16 @@ export class AuthService {
     constructor(private httpClient: HttpClient) {
         this.storage = new Storage(Storage.sessionStorage, this.tokenName, 300);
         this.environment = environment;
-        this._isAuth = !!this.storage.getFromStorage();
+        this._isAuth.next(!!this.storage.getFromStorage());
         if (this._isAuth) {
             this._token = this.storage.getFromStorage();
         }
     }
 
     /**
-     * @returns {boolean}
+     * @returns {Observable}
      */
-    get isAuth(): boolean {
+    get isAuth(): Observable<any> {
         return this._isAuth;
     }
 
@@ -87,7 +87,7 @@ export class AuthService {
     login(email: string, password: string): Subject<AuthService> {
         const ret = new Subject<AuthService>();
         if (this.storage.getFromStorage()) {
-            this._isAuth = true;
+            this._isAuth.next(true);
             this._token = this.storage.getFromStorage();
             ret.next(this);
             return;
@@ -98,7 +98,7 @@ export class AuthService {
                 password: password
             })
             .subscribe(response => {
-                this._isAuth = true;
+                this._isAuth.next(true);
                 this._user = new User(response.data);
                 this._token = this._user.apiToken.key;
                 this._isAdmin = this._user.roles === 'admin';
@@ -120,12 +120,17 @@ export class AuthService {
      * logout
      */
     logout(): void {
-        const hasToken = this.storage.getFromLocalStorage();
+        const hasToken = this.storage.getFromStorage();
         if (hasToken) {
             this.httpClient.post<ResponseInterface>(
-                this.environment.apiSchema + this.environment.apiHost + '/auth/logout', {token: this.storage.getFromLocalStorage()}
+                this.environment.apiSchema + this.environment.apiHost + '/auth/logout', {token: this.storage.getFromStorage()}
             ).subscribe(data => {
-                console.log(data);
+                if (data.success) {
+                    this._isAuth.next(false);
+                    this._token = '';
+                    this._user = new User();
+                    this._isAdmin = false;
+                }
             });
             this.storage.removeFromStorage();
         }

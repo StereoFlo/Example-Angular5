@@ -84,7 +84,11 @@ export class AdminService {
      * @returns {boolean}
      */
     checkAuth(): boolean {
-        if (!this.authService.isAuth) {
+        let check = false;
+        this.authService.isAuth.subscribe(data => {
+            check = data;
+        });
+        if (!check) {
             this.router.navigate(['']);
             return;
         }
