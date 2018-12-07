@@ -39,8 +39,8 @@ export class LoginComponent implements OnInit {
         if (loginForm.value.email && loginForm.value.password) {
             this.authService.login(loginForm.value.email, loginForm.value.password).subscribe(data => {
                 let check = false;
-                this.authService.isAuth.subscribe(data1 => {
-                    check = data1;
+                this.authService.isAuth.subscribe(data => {
+                    check = data;
                 });
                 if (check && data.token) {
                     this.router.navigate(['']);

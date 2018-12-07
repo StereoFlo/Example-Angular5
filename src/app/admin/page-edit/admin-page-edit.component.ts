@@ -84,7 +84,7 @@ export class PageEditComponent implements OnInit {
         this.adminService.getList().subscribe(list => {
             storage.data = list.data;
             storage.store();
-            this.pageList = list.data;
+            this.pageList = list.data.items;
         });
     }
 
