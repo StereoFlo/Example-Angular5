@@ -39,7 +39,7 @@ export class PageListComponent implements OnInit {
      */
     getList() {
         this.adminService.getList().subscribe(list => {
-            this.pageList = list.data;
+            this.pageList = list.data.items;
         });
     }
 }
